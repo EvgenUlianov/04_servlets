@@ -1,8 +1,8 @@
-GET http://localhost:8080/api/posts
+GET http://localhost:8080/servlets_war_exploded/api/posts
 
 ###
 
-POST http://localhost:8080/api/posts
+POST http://localhost:8080/servlets_war_exploded/api/posts
 Content-Type: application/json
 
 {
