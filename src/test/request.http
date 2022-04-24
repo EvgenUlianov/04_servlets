@@ -1,16 +1,21 @@
-GET http://localhost:8080/servlets_war_exploded/api/posts
+GET http://localhost:8080/04_servlets_war_exploded/api/posts/1
 
 ###
 
-POST http://localhost:8080/servlets_war_exploded/api/posts
+
+GET http://localhost:8080/04_servlets_war_exploded/api/posts
+
+###
+
+POST http://localhost:8080/04_servlets_war_exploded/api/posts
 Content-Type: application/json
 
 {
-  "id": 0,
+  "id": 1,
   "content": "Last Post"
 }
 
 
 ###
 
-DELETE http://localhost:8080/servlets_war_exploded/api/posts/1
+DELETE http://localhost:8080/04_servlets_war_exploded/api/posts/1

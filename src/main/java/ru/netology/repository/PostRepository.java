@@ -1,5 +1,6 @@
 package ru.netology.repository;
 
+import ru.netology.exception.NotFoundException;
 import ru.netology.model.Post;
 
 import java.util.*;
@@ -22,11 +23,11 @@ public class PostRepository {
     return result;
   }
 
-  public Optional<Post> getById(long id) {
+  public Optional<Post> getById(long id) throws NotFoundException {
     if (posts.containsKey(id))
       return Optional.ofNullable(posts.get(id));
     else
-      return null;
+      throw new NotFoundException();
   }
 
   public synchronized Post save(Post post) {

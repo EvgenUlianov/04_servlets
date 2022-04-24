@@ -1,6 +1,7 @@
 package ru.netology.servlet;
 
 import ru.netology.controller.PostController;
+import ru.netology.exception.NotFoundException;
 import ru.netology.repository.PostRepository;
 import ru.netology.service.PostService;
 
@@ -29,8 +30,8 @@ public class MainServlet extends HttpServlet {
     final String path = req.getRequestURI();
     final String method = req.getMethod();
     long id;
-    if(path.matches("/servlets_war_exploded/api/posts/\\d+"))
-      id = Long.parseLong(path.substring(path.lastIndexOf("/")));
+    if(path.matches("/04_servlets_war_exploded/api/posts/\\d+"))
+      id = Long.parseLong(path.substring(path.lastIndexOf("/")+1));
     else
       id = 0L;
 
@@ -53,6 +54,9 @@ public class MainServlet extends HttpServlet {
         }
       }
 
+    } catch (NotFoundException e) {
+      e.printStackTrace();
+      resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
     } catch (Exception e) {
       e.printStackTrace();
       resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
