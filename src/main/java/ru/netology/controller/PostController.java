@@ -41,6 +41,14 @@ public class PostController {
     response.getWriter().print(gson.toJson(data));
   }
 
+  public void save(long id, Reader body, HttpServletResponse response) throws IOException, NotFoundException{
+    response.setContentType(APPLICATION_JSON);
+    final Gson gson = new Gson();
+    final Post post = gson.fromJson(body, Post.class);
+    final Post data = service.save(id, post);
+    response.getWriter().print(gson.toJson(data));
+  }
+
   public void removeById(long id, HttpServletResponse response) throws IOException {
     response.setContentType(APPLICATION_JSON);
     service.removeById(id);

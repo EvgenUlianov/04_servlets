@@ -13,6 +13,7 @@ import java.io.IOException;
 public class MainServlet extends HttpServlet {
   public static final String GET = "GET";
   public static final String POST = "POST";
+  public static final String PATCH = "PATCH";
   public static final String DELETE = "DELETE";
   private PostController controller;
 
@@ -45,6 +46,10 @@ public class MainServlet extends HttpServlet {
           post(req, resp);
           break;
         }
+        case PATCH: {
+          patch(id, req, resp);
+          break;
+        }
         case DELETE: {
           delete(id, resp);
           break;
@@ -70,6 +75,11 @@ public class MainServlet extends HttpServlet {
 
   private void post(HttpServletRequest req, HttpServletResponse response) throws IOException  {
     controller.save(req.getReader(), response);
+  }
+
+  private void patch(long id, HttpServletRequest req, HttpServletResponse response) throws IOException  {
+    if (id != 0L)
+      controller.save(id, req.getReader(), response);
   }
 
   private void get(long id, HttpServletResponse response) throws IOException {

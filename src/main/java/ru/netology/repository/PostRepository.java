@@ -30,6 +30,15 @@ public class PostRepository {
       throw new NotFoundException();
   }
 
+  public synchronized Post save(long id, Post post) {
+    if (posts.containsKey(id)){
+      posts.put(id, post);
+      post.setId(id);
+      return post;
+    }else{
+      throw new NotFoundException();
+    }
+  }
   public synchronized Post save(Post post) {
     index++;
     posts.put(index, post);
