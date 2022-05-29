@@ -4,6 +4,7 @@ import ru.netology.exception.NotFoundException;
 import ru.netology.model.Post;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -14,7 +15,7 @@ public class PostRepository {
   private AtomicLong index;
 
   public PostRepository() {
-    posts = new ConcurrentSkipListMap<>();
+    posts = new ConcurrentHashMap<>();
     index = new AtomicLong(-1L);
   }
 
