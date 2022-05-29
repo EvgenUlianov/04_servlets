@@ -31,7 +31,8 @@ public class MainServlet extends HttpServlet {
     final String path = req.getRequestURI();
     final String method = req.getMethod();
     long id;
-    if(path.matches("/04_servlets_war_exploded/api/posts/\\d+"))
+
+    if(path.matches(".{1,}api/posts/\\d+"))
       id = Long.parseLong(path.substring(path.lastIndexOf("/")+1));
     else
       id = 0L;
