@@ -16,7 +16,7 @@ public class PostRepository {
 
   public PostRepository() {
     posts = new ConcurrentHashMap<>();
-    index = new AtomicLong(-1L);
+    index = new AtomicLong(0L);
   }
 
   public List<Post> all() {
@@ -33,7 +33,7 @@ public class PostRepository {
       throw new NotFoundException();
   }
 
-  public Post save(long id, Post post) {
+  public Post save(long id, Post post) throws NotFoundException {
     if (posts.containsKey(id)){
       posts.put(id, post);
       post.setId(id);
@@ -42,7 +42,7 @@ public class PostRepository {
       throw new NotFoundException();
     }
   }
-  public Post save(Post post) {
+  public Post save(Post post)  {
     long localIndex = index.incrementAndGet();
     posts.put(localIndex, post);
     post.setId(localIndex);

@@ -1,6 +1,7 @@
 package ru.netology.servlet;
 
 import ru.netology.controller.PostController;
+import ru.netology.exception.BadRequestException;
 import ru.netology.exception.NotFoundException;
 import ru.netology.repository.PostRepository;
 import ru.netology.service.PostService;
@@ -60,6 +61,9 @@ public class MainServlet extends HttpServlet {
         }
       }
 
+    } catch (BadRequestException e) {
+      e.printStackTrace();
+      resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     } catch (NotFoundException e) {
       e.printStackTrace();
       resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
