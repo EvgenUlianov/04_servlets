@@ -74,7 +74,6 @@ public class MainServlet extends HttpServlet {
   }
 
   private void delete(long id, HttpServletResponse response) throws IOException {
-//    if (id != 0L)
       controller.removeById(id, response);
   }
 
@@ -83,8 +82,6 @@ public class MainServlet extends HttpServlet {
   }
 
   private void patch(long id, HttpServletRequest req, HttpServletResponse response) throws IOException  {
-//    if (id == 0L)
-//      throw new
       controller.save(id, req.getReader(), response);
   }
 
