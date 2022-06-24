@@ -15,14 +15,14 @@ Content-Type: application/json
 }
 
 ###
-PATCH http://localhost:9998/04_servlets_war_exploded/api/posts/6
+PATCH http://localhost:9998/04_servlets_war_exploded/api/posts/1
 Content-Type: application/json
 
 {
-  "id": 6,
-  "content": "Last Post patcjhed5dfdf______"
+  "id": 2,
+  "content": "Last Post patcjhed5dfdf______4"
 }
 
 ###
 
-DELETE http://localhost:9998/04_servlets_war_exploded/api/posts/9
+DELETE http://localhost:9998/04_servlets_war_exploded/api/posts/2

@@ -48,11 +48,13 @@ public class PostController {
     response.setContentType(APPLICATION_JSON);
     final Gson gson = new Gson();
     final Post post = gson.fromJson(body, Post.class);
-    if (post.getId() != id && post.getId() != 0L )
+    if       (id == 0L && post.getId() == 0L){
       throw  new BadRequestException();
-    if (id == 0L )
+    } else if(id != 0L && post.getId() != 0L && id != post.getId()){
       throw  new BadRequestException();
-    final Post data = service.save(id, post);
+    }
+
+    final Post data = service.save(Math.max(id, post.getId()), post);
     response.getWriter().print(gson.toJson(data));
   }
 
