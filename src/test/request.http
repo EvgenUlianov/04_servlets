@@ -19,9 +19,10 @@ PATCH http://localhost:9998/04_servlets_war_exploded/api/posts/6
 Content-Type: application/json
 
 {
-"content": "Last Post patcjhed5"
+  "id": 6,
+  "content": "Last Post patcjhed5dfdf______"
 }
 
 ###
 
-DELETE http://localhost:9998/04_servlets_war_exploded/api/posts/1
+DELETE http://localhost:9998/04_servlets_war_exploded/api/posts/9
