@@ -1,11 +1,28 @@
-GET http://localhost:8080/api/posts
+GET http://localhost:9998/04_servlets_war_exploded/api/posts/6
 
 ###
 
-POST http://localhost:8080/api/posts
+
+GET http://localhost:9998/04_servlets_war_exploded/api/posts
+
+###
+
+POST http://localhost:9998/04_servlets_war_exploded/api/posts
 Content-Type: application/json
 
 {
-  "id": 0,
   "content": "Last Post"
 }
+
+###
+PATCH http://localhost:9998/04_servlets_war_exploded/api/posts/1
+Content-Type: application/json
+
+{
+  "id": 2,
+  "content": "Last Post patcjhed5dfdf______4"
+}
+
+###
+
+DELETE http://localhost:9998/04_servlets_war_exploded/api/posts/2

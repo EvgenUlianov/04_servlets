@@ -17,12 +17,16 @@ public class PostService {
     return repository.all();
   }
 
-  public Post getById(long id) {
+  public Post getById(long id) throws NotFoundException {
     return repository.getById(id).orElseThrow(NotFoundException::new);
   }
 
   public Post save(Post post) {
     return repository.save(post);
+  }
+
+  public Post save(long id, Post post) {
+    return repository.save(id, post);
   }
 
   public void removeById(long id) {

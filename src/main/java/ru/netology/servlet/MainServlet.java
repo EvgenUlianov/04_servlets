@@ -1,6 +1,8 @@
 package ru.netology.servlet;
 
 import ru.netology.controller.PostController;
+import ru.netology.exception.BadRequestException;
+import ru.netology.exception.NotFoundException;
 import ru.netology.repository.PostRepository;
 import ru.netology.service.PostService;
 
@@ -8,13 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
 
 public class MainServlet extends HttpServlet {
   public static final String GET = "GET";
   public static final String POST = "POST";
+  public static final String PATCH = "PATCH";
   public static final String DELETE = "DELETE";
   private PostController controller;
 
@@ -28,66 +28,68 @@ public class MainServlet extends HttpServlet {
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse resp) {
     // если деплоились в root context, то достаточно этого
+
+    final String path = req.getRequestURI();
+    final String method = req.getMethod();
+    long id;
+
+    if(path.matches(".{1,}api/posts/\\d+"))
+      id = Long.parseLong(path.substring(path.lastIndexOf("/")+1));
+    else
+      id = 0L;
+
     try {
-      final String path = req.getRequestURI();
-      final String method = req.getMethod();
-      long id;
-      if(path.matches("/api/posts/\\d+"))
-        id = Long.parseLong(path.substring(path.lastIndexOf("/")));
-      else
-        id = 0L;
-
-      Map<String, Consumer<HttpServletResponse>> handlers = new HashMap<>();
-      handlers.put(GET, (response) -> {
-        if (id != 0L)
-          controller.getById(id, response);
-        else {
-          try {
-            controller.all(response);
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
+      switch (method){
+        case GET: {
+          get (id, resp);
+          break;
         }
-      });
-      handlers.put(POST, (response) -> {
-        try {
-          controller.save(req.getReader(), response);
-        } catch (IOException e) {
-          e.printStackTrace();
+        case POST: {
+          post(req, resp);
+          break;
         }
-      });
-      handlers.put(DELETE, (response) -> {
-        if (id != 0L)
-          controller.removeById(id, response);
-      });
+        case PATCH: {
+          patch(id, req, resp);
+          break;
+        }
+        case DELETE: {
+          delete(id, resp);
+          break;
+        }
+        default:{
+          resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        }
+      }
 
-      Consumer<HttpServletResponse> myConsumer = handlers.get(method);
-      if (myConsumer != null)
-        myConsumer.accept(resp);
-
-//      // primitive routing
-//      if (method.equals(GET) && path.equals("/api/posts")) {
-//        controller.all(resp);
-//        return;
-//      }
-//      if (method.equals(GET) && path.matches("/api/posts/\\d+")) {
-//        // easy way
-//        controller.getById(id, resp);
-//        return;
-//      }
-//      if (method.equals(POST) && path.equals("/api/posts")) {
-//        controller.save(req.getReader(), resp);
-//        return;
-//      }
-//      if (method.equals(DELETE) && path.matches("/api/posts/\\d+")) {
-//        // easy way
-//        controller.removeById(id, resp);
-//        return;
-//      }
+    } catch (BadRequestException e) {
+      e.printStackTrace();
+      resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    } catch (NotFoundException e) {
+      e.printStackTrace();
       resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
     } catch (Exception e) {
       e.printStackTrace();
       resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  private void delete(long id, HttpServletResponse response) throws IOException {
+      controller.removeById(id, response);
+  }
+
+  private void post(HttpServletRequest req, HttpServletResponse response) throws IOException  {
+    controller.save(req.getReader(), response);
+  }
+
+  private void patch(long id, HttpServletRequest req, HttpServletResponse response) throws IOException  {
+      controller.save(id, req.getReader(), response);
+  }
+
+  private void get(long id, HttpServletResponse response) throws IOException {
+    if (id != 0L)
+      controller.getById(id, response);
+    else {
+     controller.all(response);
     }
   }
 }
